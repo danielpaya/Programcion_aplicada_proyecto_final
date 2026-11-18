@@ -5,3 +5,7 @@
 .entregables a[aria-current=page]{background:#D9A43A;color:#2A211B}
 .entregables a:focus-visible{outline:3px solid #D9A43A;outline-offset:2px}
 @media (max-width:760px){.entregables a{padding:.32rem .65rem;font-size:.8rem}}
+.pantalla{display:inline-flex;align-items:center;gap:.45rem;margin-left:10px;background:rgba(244,231,201,.1);color:#EEE7D7;border:0;border-radius:99px;padding:.5rem .95rem;font-family:"DM Sans",system-ui,sans-serif;font-weight:500;font-size:.88rem;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s}
+.pantalla:hover{background:#D9A43A;color:#2A211B}
+.pantalla:focus-visible{outline:3px solid #D9A43A;outline-offset:2px}
+@media (max-width:760px){.pantalla span{display:none}.pantalla{padding:.5rem .6rem;margin-left:6px}}
