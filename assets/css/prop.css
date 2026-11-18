@@ -1,0 +1,58 @@
+@import url("info.css");
+body{background:#1d1310}
+.hoja{width:min(920px,100%);margin:28px auto 60px;background:var(--crema);color:var(--tinta);position:relative;box-shadow:0 24px 70px rgba(0,0,0,.5);overflow:hidden}
+.membrete{background:var(--teja);color:var(--crema);padding:38px 56px 30px;position:relative;isolation:isolate}
+.membrete::before{content:"";position:absolute;inset:0;background:url(../img/patron.jpg) center/600px;mix-blend-mode:lighten;opacity:.4;z-index:-1}
+.membrete img{position:absolute;right:40px;top:22px;width:190px;filter:drop-shadow(0 8px 0 rgba(42,27,23,.3))}
+.membrete .eti{font-family:var(--serif);font-style:italic;font-weight:600;font-size:18px}
+.membrete h1{font-family:var(--display);font-weight:800;font-size:44px;line-height:1.05;margin:6px 0 18px;max-width:14ch}
+.datos{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:15px}
+.datos dt{font-weight:700}
+.cuerpo{padding:34px 56px 44px}
+.cuerpo h2{font-family:var(--display);font-weight:800;font-size:27px;margin:30px 0 12px;color:var(--teja)}
+.cuerpo h2:first-child{margin-top:0}
+.cuerpo p{font-family:var(--serif);font-size:17.5px;line-height:1.55;margin-bottom:10px;max-width:70ch}
+.pide{background:var(--tinta);color:var(--crema);border-radius:10px;padding:22px 26px;margin:6px 0 4px}
+.pide h2{color:var(--mostaza)!important;margin:0 0 10px!important}
+.pide ol{margin-left:22px;display:grid;gap:10px;font-size:17px;line-height:1.45}
+.pide b{color:var(--mostaza)}
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:8px 0 6px}
+.kp div{border:3px solid var(--tinta);border-radius:8px;padding:12px 14px;background:#F6F1E5;box-shadow:4px 4px 0 var(--tinta)}
+.kp b{display:block;font-family:var(--display);font-weight:800;font-size:26px;color:var(--teja);line-height:1.1}
+.kp span{font-size:13.5px;line-height:1.3;display:block;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:6px 0 4px}
+th{background:var(--tinta);color:var(--mostaza);text-align:left;padding:9px 11px}
+td{padding:9px 11px;border-bottom:1px solid rgba(42,27,23,.2);vertical-align:top;line-height:1.4}
+tr:nth-child(even) td{background:rgba(235,215,171,.5)}
+td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.crono{display:grid;grid-template-columns:repeat(4,1fr);border:3px solid var(--tinta);border-radius:8px;overflow:hidden;margin:8px 0}
+.crono div{padding:12px 14px;border-right:2px dashed rgba(42,27,23,.35);font-size:14.5px;line-height:1.4}
+.crono div:last-child{border-right:0}
+.crono b{display:block;font-family:var(--display);font-weight:800;font-size:18px;color:var(--teja)}
+.crono small{display:block;font-weight:700;margin-bottom:4px}
+.firma{display:flex;gap:40px;margin-top:34px}
+.firma div{flex:1;border-top:2px solid var(--tinta);padding-top:6px;font-size:14px}
+.pieh{background:var(--tinta);color:rgba(244,231,201,.85);padding:16px 56px;font-size:12.5px;line-height:1.45}
+@media (max-width:760px){.membrete,.cuerpo{padding-left:22px;padding-right:22px}.membrete img{display:none}.kp,.crono{grid-template-columns:1fr 1fr}.pieh{padding:14px 22px}}
+@media print{
+  @page{size:A4;margin:12mm 0}@page :first{margin:0 0 12mm 0}
+  body{background:none}.top{display:none}
+  .hoja{margin:0;width:100%;box-shadow:none}
+  .cartel::after{display:none}
+  h2{break-after:avoid}table,.crono,.kp,.pide{break-inside:avoid}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* ---- arte Eje Cafetero ---- */
+
+h1,h2,h3{letter-spacing:-.01em}
+
+.membrete{padding-right:36%;min-height:300px}
+.membrete .lino{position:absolute;right:0;top:0;height:100%;width:32%;object-fit:cover;filter:none}
+.membrete h1{font-weight:800;letter-spacing:-.02em}
+.membrete .eti{color:var(--mostaza)}
+.cuerpo h2{font-weight:800;color:var(--teja)}
+.kp b{color:var(--teja)}
+.crono b{color:var(--teja)}
+@media (max-width:760px){.membrete{padding-right:22px}.membrete .lino{display:none}}
+.membrete::before{opacity:.3}

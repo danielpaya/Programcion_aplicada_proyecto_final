@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hotel Valle de Cocora · Cancelaciones de reservas</title>
+<meta name="description" content="Visualizador interactivo: cuántas reservas adicionales aceptar, a quién pedirle depósito y qué política ajustar en Booking y Airbnb.">
+<link rel="stylesheet" href="../assets/css/viz.css">
+<link rel="stylesheet" href="../assets/css/nav.css">
+</head>
+<body>
+<header class="barra"><a class="logo" href="#inicio">Valle de Cocora</a><nav class="entregables" aria-label="Entregables"><a href="../index.html#s1" data-e="pres">Presentación</a><a href="../index.html#tablero" data-e="tab">Tablero</a><a href="visualizador.html" data-e="viz" aria-current="page">Visualizador</a><a href="infografia.html" data-e="info">Infografía</a><a href="propuesta.html" data-e="prop">Propuesta ejecutiva</a></nav></header>
+<nav class="subnav" aria-label="Secciones del visualizador">
+    <a href="#panorama">Panorama</a>
+    <a href="#p1">Reservas adicionales</a>
+    <a href="#p2">Pago por adelantado</a>
+    <a href="#p3">Booking y Airbnb</a>
+    <a href="#calculadora">Calculadora</a>
+    <a href="#propuesta">Propuesta</a>
+  </nav>
+
+<main>
+<section id="inicio" class="hero">
+  <img class="h-buho deco" data-par="0.05" src="../assets/img/buho.webp" alt="">
+  <img class="h-ruana" src="../assets/img/ruana.webp" alt="">
+  <img class="h-cerezas deco" data-par="-0.05" src="../assets/img/cerezas.webp" alt="">
+  <img class="h-craneo" src="../assets/img/anillos.webp" alt="Anillos de crecimiento de un árbol">
+  <h1>Hotel Valle de Cocora</h1>
+  <p class="hero-sub">Una de cada cinco reservas se cancela. Esto es lo que se puede hacer.</p>
+  <p class="hero-nota">Con tres años de reservas se puede estimar cuántas se cancelarán cada noche, quién tiene más riesgo de cancelar y qué pasaría si Booking y Airbnb exigieran más. Mueve los controles de cada sección y mira cómo cambia la decisión.</p>
+  <div class="sellos" id="sellos">
+    <div class="sello" style="--i:0"><b data-cuenta="19.0" data-f="pct">0</b><span>de las reservas se cancela</span></div>
+    <div class="sello" style="--i:1"><b data-cuenta="15511" data-f="mm">0</b><span>de ingreso se pierde por cancelaciones</span></div>
+    <div class="sello" style="--i:2"><b data-cuenta="47" data-f="ent">0</b><span>de lo perdido viene de Booking</span></div>
+    <div class="sello" style="--i:3"><b data-cuenta="353" data-f="ent0">0</b><span>noches de prueba del modelo</span></div>
+  </div>
+</section>
+
+<div class="cinta" aria-hidden="true"><div id="cinta"></div></div>
+
+<section id="panorama" class="bloque s-crema">
+  <img class="deco" data-par="0.04" src="../assets/img/anillos.webp" alt="" style="right:3%;top:5%;width:min(11vw,140px);opacity:.85">
+  <div class="envoltura">
+    <h2>Dónde se pierde el dinero</h2>
+    <p class="bajada">Cada cancelación deja una habitación vacía que ya no se puede vender. Elige un factor y compara su tasa de cancelación con el promedio.</p>
+    <div class="rejilla">
+      <div class="tablero cartel">
+        <div class="control">
+          <div class="etq">Factor a mirar</div>
+          <div class="fichas" id="fichasPan" role="group" aria-label="Factor">
+            <button class="ficha" aria-pressed="true" data-k="antic">Anticipación</button>
+            <button class="ficha" aria-pressed="false" data-k="canal">Canal</button>
+            <button class="ficha" aria-pressed="false" data-k="politica">Política</button>
+            <button class="ficha" aria-pressed="false" data-k="deposito">Pago anticipado</button>
+            <button class="ficha" aria-pressed="false" data-k="previas">Historial</button>
+          </div>
+        </div>
+        <p class="lectura" id="lecturaPan"></p>
+      </div>
+      <div class="cartel">
+        <div class="graf alto"><canvas id="cPan"></canvas></div>
+        <p class="nota" id="notaPan"></p>
+      </div>
+    </div>
+    <div class="cartel" style="margin-top:1.8rem">
+      <h3>Reservas por día y tasa de cancelación mes a mes</h3>
+      <div class="graf"><canvas id="cMes"></canvas></div>
+      <p class="nota">La franja marcada es la ventana confiable (1 de mayo de 2023 al 18 de junio de 2025). Antes, el historial apenas arrancaba y solo traía reservas de última hora; después, solo reservas hechas con mucha anticipación. En esos extremos la tasa parece cambiar, pero es un efecto del registro, no del comportamiento.</p>
+    </div>
+  </div>
+</section>
+
+<section id="p1" class="bloque s-osc">
+  <div class="envoltura">
+    <h2>¿Cuántas reservas adicionales aceptar?</h2>
+    <p class="bajada">Cada noche se cancela un número incierto de reservas. El modelo calcula esa incertidumbre y propone aceptar tantas reservas adicionales como cancelaciones casi seguras. Tú decides qué tan seguro quieres estar.</p>
+    <div class="rejilla">
+      <div class="tablero cartel">
+        <div class="control">
+          <label for="qP1">Percentil <output id="oQ">10</output></label>
+          <input type="range" id="qP1" min="1" max="40" step="1" value="10">
+          <small>Con el percentil 10, el 90 % de las noches se cancelan al menos tantas reservas como las que se aceptan de más. Un percentil más alto acepta más reservas, y también más riesgo de dejar a alguien sin cuarto.</small>
+        </div>
+        <div class="fichas" role="group" aria-label="Atajos">
+          <button class="ficha" data-q="5" aria-pressed="false">Percentil 5</button>
+          <button class="ficha" data-q="10" aria-pressed="true">Percentil 10</button>
+          <button class="ficha" data-q="20" aria-pressed="false">Percentil 20</button>
+        </div>
+        <div class="control">
+          <label for="selNoche">Mirar una noche concreta</label>
+          <select id="selNoche"></select>
+        </div>
+      </div>
+      <div>
+        <div class="recibo" id="reciboP1" aria-live="polite">
+          <div><b id="vExtra">0</b><span>reservas adicionales por noche</span></div>
+          <div id="bCob"><b id="vCob">0</b><span>de las cancelaciones se cubren</span><em>meta: 70 % o más</em></div>
+          <div id="bInc"><b id="vInc">0</b><span>de las noches con incidencia</span><em>meta: menos de 6 %</em></div>
+        </div>
+        <div class="dos">
+          <div class="cartel"><h3>Cobertura frente a riesgo</h3><div class="graf"><canvas id="cCurva"></canvas></div></div>
+          <div class="cartel"><h3 id="tNoche">Una noche, en detalle</h3><div class="graf"><canvas id="cNoche"></canvas></div></div>
+        </div>
+        <div class="cartel" style="margin-top:1.4rem"><h3>Las 353 noches de prueba (julio de 2024 a junio de 2025)</h3><div class="graf"><canvas id="cSerie"></canvas></div>
+        <p class="nota">Incidencia significa que se aceptaron más reservas adicionales que cancelaciones reales esa noche. Cobertura es la parte de las cancelaciones que se llenó con reservas adicionales. Todo se calcula noche por noche con datos que el modelo no vio al entrenar.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="p2" class="bloque s-roja">
+  <img class="deco" src="../assets/img/ruana.webp" alt="" style="left:0;bottom:0;width:min(14vw,170px)">
+  <div class="envoltura">
+    <h2>¿A quién pedirle pago por adelantado?</h2>
+    <p class="bajada">Pedir depósito a todos espanta clientes. Pedirlo solo a quien tiene mucho riesgo de cancelar protege ingreso con poco costo. Ajusta el umbral y mira cuánto se gana y cuánto se arriesga.</p>
+    <div class="rejilla">
+      <div class="tablero cartel">
+        <div class="control">
+          <label for="uP2">Riesgo desde el cual se pide depósito <output id="oU">30 %</output></label>
+          <input type="range" id="uP2" min="5" max="70" step="5" value="30">
+          <small>Probabilidad de cancelar que estima el modelo para cada reserva.</small>
+        </div>
+        <div class="control">
+          <label for="gP2">Clientes que desisten al pedirles depósito <output id="oG">5 %</output></label>
+          <input type="range" id="gP2" min="0" max="30" step="1" value="5">
+          <small>Se pierde el ingreso de quienes se habrían quedado y no aceptan el depósito.</small>
+        </div>
+        <div class="control">
+          <label for="eP2">Qué tanto del efecto observado se logra <output id="oE">100 %</output></label>
+          <input type="range" id="eP2" min="25" max="100" step="25" value="100">
+          <small>Con depósito se cancela casi la mitad. Es una asociación observada, no una causa probada; por eso conviene probar escenarios prudentes.</small>
+        </div>
+        <div class="control"><label for="fCanal">Canal</label><select id="fCanal"></select></div>
+        <div class="control"><label for="fPol">Política</label><select id="fPol"></select></div>
+      </div>
+      <div>
+        <div class="recibo" aria-live="polite">
+          <div><b id="v2n">0</b><span id="v2np">de las reservas sin pago</span></div>
+          <div><b id="v2t">0</b><span>cancelan, frente a <span id="v2r" style="display:inline"></span> en el resto</span></div>
+          <div class="ok"><b id="v2p">0</b><span>de ingreso protegido al año</span></div>
+          <div id="v2nb"><b id="v2neto">0</b><span>beneficio neto tras los que desisten</span></div>
+        </div>
+        <div class="dos">
+          <div class="cartel"><h3>Beneficio neto según el umbral</h3><div class="graf"><canvas id="cNeto"></canvas></div></div>
+          <div class="cartel"><h3>Cuánto se protege y a cuántos se les pide</h3><div class="graf"><canvas id="cLift"></canvas></div></div>
+        </div>
+        <p class="nota">Cifras del año de prueba, en pesos de la base, que equivale a unas 8 veces las 38 habitaciones del hotel: léelas como proporciones. Un umbral muy bajo da el mayor beneficio en el papel, pero obliga a pedir depósito a casi todos, algo que en la práctica espanta demanda.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="p3" class="bloque s-crema">
+  <img class="deco" data-par="0.05" src="../assets/img/cerezas.webp" alt="" style="right:2%;bottom:30px;width:min(10vw,120px)">
+  <div class="envoltura">
+    <h2>Booking y Airbnb: ¿qué pasa si se endurecen las políticas?</h2>
+    <p class="bajada">Las reservas Flexibles sin depósito son las más volátiles. Elige un canal y un cambio de política, y mira cuánto baja la cancelación y hasta cuánta demanda se puede perder antes de que deje de convenir.</p>
+    <div class="rejilla">
+      <div class="tablero cartel">
+        <div class="control"><div class="etq">Canal</div>
+          <div class="fichas" id="fCan3" role="group"><button class="ficha" data-v="Booking" aria-pressed="true">Booking</button><button class="ficha" data-v="Airbnb" aria-pressed="false">Airbnb</button></div></div>
+        <div class="control"><div class="etq">Cambio para las reservas Flexibles</div>
+          <div class="fichas" id="fEsc3" role="group"><button class="ficha" data-v="mod" aria-pressed="false">Pasan a Moderada</button><button class="ficha" data-v="dep" aria-pressed="true">Pagan depósito</button></div></div>
+        <div class="control">
+          <label for="gP3">Reservas afectadas que se pierden <output id="oG3">10 %</output></label>
+          <input type="range" id="gP3" min="0" max="40" step="1" value="10">
+          <small>Supuesto: cuántos clientes se van por la nueva exigencia. Los datos históricos no lo miden; lo mide el piloto.</small>
+        </div>
+        <div class="veredicto" id="ver3"></div>
+      </div>
+      <div>
+        <div class="recibo" aria-live="polite">
+          <div><b id="v3a">0</b><span>tasa de cancelación del canal hoy</span></div>
+          <div class="ok"><b id="v3b">0</b><span>con el cambio, sin perder demanda</span></div>
+          <div><b id="v3c">0</b><span>de ingreso recuperable al año</span></div>
+          <div><b id="v3d">0</b><span>pérdida de demanda tolerable (equilibrio)</span></div>
+        </div>
+        <div class="dos">
+          <div class="cartel"><h3>Tasa de cancelación del canal</h3><div class="graf"><canvas id="c3a"></canvas></div></div>
+          <div class="cartel"><h3>Cambio en el ingreso confirmado</h3><div class="graf"><canvas id="c3b"></canvas></div></div>
+        </div>
+        <p class="nota" id="nota3"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="calculadora" class="bloque s-naranja">
+  <img class="deco" data-par="-0.06" src="../assets/img/buho.webp" alt="" style="right:3%;top:30px;width:min(12vw,150px);rotate:8deg">
+  <div class="envoltura">
+    <h2>Calcula el riesgo de una reserva</h2>
+    <p class="bajada" style="color:var(--tinta)">Ingresa los datos de una reserva y mira qué probabilidad tiene de cancelarse y si conviene pedirle depósito. Es una versión simplificada del modelo, pensada para explicar la lógica.</p>
+    <div class="rejilla" style="grid-template-columns:1.15fr .85fr">
+      <div class="cartel">
+        <div class="formu">
+          <div class="campo"><label for="kCanal">Canal</label><select id="kCanal"></select></div>
+          <div class="campo"><label for="kPol">Política de cancelación</label><select id="kPol"></select></div>
+          <div class="campo"><label for="kHab">Tipo de habitación</label><select id="kHab"></select></div>
+          <div class="campo"><label for="kDep">Pago anticipado</label><select id="kDep"><option value="0">Sin pago</option><option value="1">Con pago</option></select></div>
+          <div class="campo ancho control"><label for="kAnt">Días de anticipación <output id="oAnt">60</output></label><input type="range" id="kAnt" min="0" max="365" value="60"></div>
+          <div class="campo"><label for="kNoc">Noches</label><input type="number" id="kNoc" min="1" max="14" value="2"></div>
+          <div class="campo"><label for="kTar">Tarifa por noche (COP)</label><input type="number" id="kTar" min="100000" max="600000" step="5000" value="240000"></div>
+          <div class="campo"><label for="kPrev">Cancelaciones previas del huésped</label><input type="number" id="kPrev" min="0" max="5" value="0"></div>
+          <div class="campo"><label for="kSol">Solicitudes especiales</label><input type="number" id="kSol" min="0" max="5" value="1"></div>
+          <div class="campo"><label for="kRec">Huésped recurrente</label><select id="kRec"><option value="0">No</option><option value="1">Sí</option></select></div>
+        </div>
+      </div>
+      <div class="cartel medidor" aria-live="polite">
+        <svg viewBox="0 0 200 120" role="img" aria-label="Medidor de riesgo">
+          <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#E0D4BA" stroke-width="22" stroke-linecap="round"/>
+          <path id="arco" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#A3322A" stroke-width="22" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251" style="transition:stroke-dashoffset .6s cubic-bezier(.3,1.3,.5,1)"/>
+          <line id="aguja" x1="100" y1="100" x2="100" y2="38" stroke="#2A211B" stroke-width="5" stroke-linecap="round" style="transform-origin:100px 100px;transition:transform .6s cubic-bezier(.3,1.5,.5,1)"/>
+          <circle cx="100" cy="100" r="8" fill="#2A211B"/>
+        </svg>
+        <div class="p" id="kP">0 %</div>
+        <div style="font-size:.95rem" id="kProm"></div>
+        <div class="veredicto" id="kVer"></div>
+        <p class="nota" id="kDepNota"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="propuesta" class="bloque s-tinta">
+  <img class="deco" data-par="0.04" src="../assets/img/cerezas.webp" alt="" style="right:3%;bottom:40px;width:min(10vw,120px)">
+  
+  <div class="envoltura">
+    <h2 style="color:var(--mostaza)">Qué proponemos</h2>
+    <p class="bajada">Tres decisiones, cada una con su evidencia. Las cifras salen de los mismos modelos que mueves arriba.</p>
+    <div class="tres">
+      <article>
+        <h3>Reservas adicionales</h3>
+        <div class="cifra" id="pr1">0</div><div>reservas adicionales por noche con el percentil 5</div>
+        <ul><li>Cubre el 71 % de las cancelaciones y deja unas 3 de cada 100 noches con incidencia.</li><li>El percentil 10 cubre más (77 %) pero pasa de la meta de 6 % de incidencias.</li><li>Empezar con el percentil 5 y subir si el hotel tolera más riesgo.</li></ul>
+      </article>
+      <article>
+        <h3>Pago por adelantado</h3>
+        <div class="cifra" id="pr2">0</div><div>de ingreso protegido al año, pidiendo depósito solo al 37 % de las reservas sin pago</div>
+        <ul><li>Esas reservas cancelan 43 %, frente a 18 % en el resto.</li><li>Si el depósito logra la mitad del efecto, el ahorro baja a la mitad: el piloto debe medirlo.</li></ul>
+      </article>
+      <article>
+        <h3>Booking y Airbnb</h3>
+        <div class="cifra" id="pr3">0</div><div>de cancelación en Booking si sus reservas Flexibles pagan depósito (hoy 26,9 %)</div>
+        <ul><li>La meta es 21,6 %.</li><li>Tope sugerido para el piloto: perder como máximo 12,5 % del volumen afectado de Booking.</li></ul>
+      </article>
+    </div>
+    <div class="limites">
+      <h3 style="color:var(--mostaza)">Lo que hay que tener presente</h3>
+      <ul>
+        <li>El efecto del depósito y de la política viene de datos observados. Un piloto confirma cuánto se cumple en la práctica.</li>
+        <li>Los datos dicen si una reserva se canceló, no cuándo. Se asume que la cancelación se conoce antes de la llegada.</li>
+        <li>Los volúmenes equivalen a unas 8 veces las 38 habitaciones del hotel. Las cifras se leen como proporciones.</li>
+        <li>La promoción de 2023 no deja huella visible en los datos, y el modelo rinde igual sin ese año.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="pie">Universidad de La Sabana · Programación Aplicada · Hotel Valle de Cocora. Datos: 100.000 reservas únicas de 2023 a 2025.</footer>
+
+<script src="../assets/vendor/chart.umd.js"></script>
+<script src="../assets/data/datos.js"></script>
+<script src="../assets/js/viz.js"></script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hotel Valle de Cocora · Presentación y tablero</title>
+<link rel="stylesheet" href="assets/css/pres.css">
+<link rel="stylesheet" href="assets/css/nav.css">
+</head>
+<body>
+<header class="top">
+  <span class="marca">Hotel Valle de Cocora</span>
+  <nav class="entregables" aria-label="Entregables"><a href="index.html#s1" data-e="pres">Presentación</a><a href="index.html#tablero" data-e="tab">Tablero</a><a href="visuales/visualizador.html" data-e="viz">Visualizador</a><a href="visuales/infografia.html" data-e="info">Infografía</a><a href="visuales/propuesta.html" data-e="prop">Propuesta ejecutiva</a></nav>
+  <span class="ayuda" id="ayuda">Flechas ← → para avanzar · F para pantalla completa</span>
+</header>
+<div class="progreso" id="progreso"></div>
+
+<main id="vista-pres" aria-roledescription="presentación">
+<div class="escenario" id="escenario">
+
+<section class="slide roja grano portada" aria-label="Portada">
+  <img class="deco" src="assets/img/buho.webp" alt="" style="left:70px;top:70px;width:170px;rotate:-8deg">
+  <img class="deco" src="assets/img/cerezas.webp" alt="" style="right:80px;top:120px;width:150px;rotate:10deg">
+  <img class="deco" src="assets/img/ruana.webp" alt="" style="left:0;bottom:20px;width:170px">
+  <img class="craneo" src="assets/img/anillos.webp" alt="Anillos de crecimiento de un árbol">
+  <h1>Hotel Valle de Cocora</h1>
+  <p>Una de cada cinco reservas se cancela. Esto es lo que se puede hacer.</p>
+  <small>Predicción de cancelaciones · Programación Aplicada, Universidad de La Sabana · Noviembre de 2026</small>
+  <div class="cinta-b"></div>
+</section>
+
+<section class="slide grano" aria-label="El problema">
+  <img class="deco" src="assets/img/anillos.webp" alt="" style="right:60px;bottom:60px;width:170px;opacity:.9">
+  <h2>Cada cancelación es una noche que ya no se vende</h2>
+  <p class="bajada">El hotel rechazó otros huéspedes, planeó personal y compró insumos. Cuando la reserva se cae, ese ingreso se pierde.</p>
+  <div class="sellos">
+    <div class="sello" style="--i:0"><b>19,0 %</b><span>de las reservas se cancela</span></div>
+    <div class="sello" style="--i:1"><b>$15.511 M</b><span>perdidos de $81.694 M en juego</span></div>
+    <div class="sello" style="--i:2"><b>47 %</b><span>de lo perdido viene de Booking</span></div>
+    <div class="sello" style="--i:3"><b>3 años</b><span>con la misma tasa: 19,1 · 19,0 · 19,0 %</span></div>
+  </div>
+  <p class="fuente">Base de 100.000 reservas únicas, 2023–2025. Los montos están en la escala de la base, que equivale a unas 8 veces las 38 habitaciones del hotel.</p>
+</section>
+
+<section class="slide osc grano" aria-label="Las tres preguntas">
+  <h2>Tres decisiones que hoy se toman sin datos</h2>
+  <p class="bajada">Las preguntas que fijó la retroalimentación del profesor.</p>
+  <div class="preguntas">
+    <article style="--i:0"><img src="assets/img/buho.webp" alt=""><h3>Reservas adicionales</h3><p>¿Es posible anticipar cuántas reservas se cancelarán, para aceptar reservas adicionales y evitar habitaciones vacías?</p></article>
+    <article style="--i:1"><img src="assets/img/cerezas.webp" alt=""><h3>Pago por adelantado</h3><p>¿Qué clientes tienen más probabilidad de cancelar, y cuánta plata se ahorra el hotel si solo a ellos les pide un pago por adelantado?</p></article>
+    <article style="--i:2"><img src="assets/img/ruana.webp" alt=""><h3>Políticas por canal</h3><p>En Booking y Airbnb, ¿cuánto baja la cancelación si las reservas Flexibles pasan a Moderada o pagan depósito?</p></article>
+  </div>
+</section>
+
+<section class="slide grano" aria-label="Datos y decisiones">
+  <h2>Cómo se prepararon los datos</h2>
+  <p class="bajada">100.300 registros, 20 variables. Cada decisión tiene una razón.</p>
+  <table class="t">
+    <thead><tr><th style="width:24%">Decisión</th><th style="width:36%">Qué se hizo</th><th>Por qué</th></tr></thead>
+    <tbody>
+      <tr><td>Duplicados</td><td>Se eliminaron 300 filas idénticas</td><td>Son la misma reserva dos veces; inflarían cancelaciones e ingresos</td></tr>
+      <tr><td>Canal y país sin dato</td><td>Categoría «No registrado» (≈ 4 %)</td><td>No se inventan valores ni se pierden filas; cancelan como el promedio</td></tr>
+      <tr><td>Ventana confiable</td><td>Series y modelos del 1-may-2023 al 18-jun-2025</td><td>En los bordes del historial solo hay reservas cortas o muy anticipadas</td></tr>
+      <tr><td>Fuga de información</td><td><code>ingreso_total</code> fuera del modelo</td><td>Vale cero cuando la reserva se cancela: delataría la respuesta</td></tr>
+      <tr><td>Prueba en el futuro</td><td>Se entrena antes de jul-2024 y se evalúa en las 353 noches siguientes</td><td>Mide el modelo como se usaría: prediciendo lo que no ha visto</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="slide roja grano" aria-label="Quién cancela">
+  <img class="deco" src="assets/img/cerezas.webp" alt="" style="right:40px;bottom:40px;width:120px">
+  <h2>Quién cancela</h2>
+  <div class="dos a">
+    <ul class="lista" style="margin-top:10px">
+      <li>Quien reserva con meses de anticipación: de 13 % a 43 %.</li>
+      <li>Quien ya canceló antes: 34 % con dos cancelaciones previas.</li>
+      <li>Quien no paga por adelantado: casi el doble dentro de la misma política.</li>
+      <li>Booking (26,9 %) y Airbnb (22,3 %), frente a 9,7 % de la web directa.</li>
+      <li>El precio y la temporada no cambian el riesgo.</li>
+    </ul>
+    <div class="caja"><div class="graf"><canvas id="sAntic"></canvas></div></div>
+  </div>
+</section>
+
+<section class="slide tinta grano" aria-label="El modelo">
+  <h2 style="color:var(--mostaza)">Un modelo que da una probabilidad por reserva</h2>
+  <div class="dos" style="grid-template-columns:.7fr 1fr 1fr;gap:26px">
+    <div>
+      <div class="grande">0,77</div>
+      <p style="font-size:18px;margin:8px 0 18px">AUC en el año de prueba. Ordena bien las reservas por riesgo.</p>
+      <ul class="lista" style="font-size:17px">
+        <li>Calibrado: si dice 30 %, cancela ≈ 30 %.</li>
+        <li>7.455 cancelaciones esperadas frente a 7.420 reales.</li>
+        <li>Sin 2023 rinde igual (0,768).</li>
+      </ul>
+    </div>
+    <div class="caja"><h3 style="font-family:var(--serif);font-size:17px">Calibración</h3><div class="graf" style="height:330px"><canvas id="sCal"></canvas></div></div>
+    <div class="caja"><h3 style="font-family:var(--serif);font-size:17px">Qué pesa más en el modelo</h3><div class="graf" style="height:330px"><canvas id="sImp"></canvas></div></div>
+  </div>
+</section>
+
+<section class="slide osc grano" aria-label="Pregunta 1">
+  <img class="deco" src="assets/img/buho.webp" alt="" style="right:50px;top:30px;width:110px;rotate:6deg">
+  <h2>P1 · Sí se puede anticipar cuántas reservas se cancelan</h2>
+  <div class="dos a">
+    <div>
+      <p style="font-size:19px;line-height:1.45">Cada noche se suman las probabilidades de las reservas programadas y se acepta como reservas adicionales un número que casi seguro se cancelará.</p>
+      <table class="t" style="margin-top:16px;font-size:16px">
+        <thead><tr><th>Regla</th><th>Cobertura</th><th>Incidencia</th></tr></thead>
+        <tbody><tr><td><b>Percentil 5</b></td><td>71,1 %</td><td>3,1 %</td></tr><tr><td>Percentil 10 (PDF)</td><td>76,7 %</td><td>7,6 %</td></tr><tr><td>Meta del OKR</td><td>≥ 70 %</td><td>&lt; 6 %</td></tr></tbody>
+      </table>
+      <div class="reco"><b>Recomendación:</b> percentil 5. Cumple las dos metas, con un error medio de 3,07 cancelaciones por noche.</div>
+    </div>
+    <div class="caja"><h3 style="font-family:var(--serif);font-size:17px">Cobertura frente a riesgo, percentil 1 a 40</h3><div class="graf" style="height:380px"><canvas id="sP1"></canvas></div></div>
+  </div>
+</section>
+
+<section class="slide roja grano" aria-label="Pregunta 2">
+  <img class="deco" src="assets/img/cerezas.webp" alt="" style="right:40px;bottom:40px;width:120px">
+  <h2>P2 · Pedir depósito solo a quien más cancela</h2>
+  <div class="dos a">
+    <div>
+      <ul class="lista">
+        <li>Riesgo estimado mayor a 30 %: el 37 % de las reservas sin pago.</li>
+        <li>Esas reservas cancelan 42,8 %; el resto, 17,7 %.</li>
+        <li>Se protege el 59 % del ingreso recuperable.</li>
+      </ul>
+      <div class="reco"><b>$1.266 M</b> protegidos al año; <b>$1.086 M</b> netos si desiste el 5 % de los marcados. Si el depósito logra solo la mitad del efecto, $633 M.</div>
+    </div>
+    <div class="caja"><h3 style="font-family:var(--serif);font-size:17px">Beneficio neto según el umbral de riesgo</h3><div class="graf" style="height:380px"><canvas id="sP2"></canvas></div></div>
+  </div>
+</section>
+
+<section class="slide grano" aria-label="Pregunta 3">
+  <img class="deco" src="assets/img/ruana.webp" alt="" style="left:0;bottom:0;width:120px">
+  <h2>P3 · Booking y Airbnb con reglas más firmes</h2>
+  <div class="dos a">
+    <div>
+      <p style="font-size:19px;line-height:1.45">Solo cambian las reservas Flexibles sin depósito. El depósito reduce más que pasar a Moderada y tolera más pérdida de demanda.</p>
+      <table class="t" style="margin-top:16px;font-size:16px">
+        <thead><tr><th>Canal</th><th>Hoy</th><th>Moderada</th><th>Depósito</th><th>Equilibrio</th></tr></thead>
+        <tbody><tr><td>Booking</td><td>26,9 %</td><td>23,6 %</td><td><b>21,4 %</b></td><td>25,0 %</td></tr><tr><td>Airbnb</td><td>22,3 %</td><td>19,2 %</td><td>17,4 %</td><td>20,5 %</td></tr></tbody>
+      </table>
+      <div class="reco"><b>Recomendación:</b> piloto de depósito en Booking. Meta de 21,6 %, con un tope de 12,5 % de pérdida de reservas afectadas.</div>
+    </div>
+    <div class="caja"><h3 style="font-family:var(--serif);font-size:17px">Tasa de cancelación del canal</h3><div class="graf" style="height:380px"><canvas id="sP3"></canvas></div></div>
+  </div>
+</section>
+
+<section class="slide tinta grano" aria-label="Propuesta">
+  <h2 style="color:var(--mostaza)">Qué proponemos</h2>
+  <div class="tres">
+    <article style="--i:0"><h3>Reservas adicionales</h3><div class="cifra">P5</div><p>Aceptar el percentil 5 de las cancelaciones esperadas de cada noche, escalado a las 38 habitaciones. Revisar cada mes.</p></article>
+    <article style="--i:1"><h3>Pago por adelantado</h3><div class="cifra">&gt; 30 %</div><p>Exigir depósito solo a las reservas sin pago con riesgo estimado mayor a 30 %. Recalibrar cada trimestre.</p></article>
+    <article style="--i:2"><h3>Booking</h3><div class="cifra">21,4 %</div><p>Depósito para las Flexibles durante un piloto de 3 meses. Detener si se pierde más de 12,5 % de las reservas afectadas.</p></article>
+  </div>
+  <div class="pasos">
+    <div><b>1. Sortear</b>La mitad de las reservas Flexibles de Booking con depósito, la otra mitad como control.</div>
+    <div><b>2. Medir</b>Reservas recibidas, cancelaciones e ingreso confirmado en ambos grupos.</div>
+    <div><b>3. Comparar</b>La diferencia es el efecto real del depósito, que hoy es solo una asociación.</div>
+    <div><b>4. Ajustar</b>Recalcular el ahorro de P2 y el tope de P3 con ese efecto.</div>
+  </div>
+</section>
+
+<section class="slide osc grano" aria-label="Límites">
+  <h2>Lo que hay que tener presente</h2>
+  <ul class="lista" style="max-width:980px;margin-top:20px;font-size:22px">
+    <li>El efecto del depósito y de la política viene de datos observados; el piloto mide cuánto se cumple.</li>
+    <li>Los datos dicen si una reserva se canceló, no cuándo. Se asume que se sabe antes de la llegada.</li>
+    <li>La base equivale a unas 8 veces las 38 habitaciones: las cifras se leen como proporciones.</li>
+    <li>Cuántos clientes se van al pedirles depósito es un supuesto (5–10 %).</li>
+    <li>La promoción de 2023 no deja huella en los datos y el modelo rinde igual sin ese año.</li>
+  </ul>
+</section>
+
+<section class="slide naranja grano portada" aria-label="Cierre">
+  <img class="deco" src="assets/img/buho.webp" alt="" style="left:110px;top:120px;width:170px;rotate:-8deg">
+  <img class="deco" src="assets/img/cerezas.webp" alt="" style="right:130px;top:130px;width:150px;rotate:8deg">
+  <h1 style="margin-top:150px">Gracias</h1>
+  <p style="color:var(--tinta)">Todas las cifras se pueden explorar en el tablero.</p>
+  <a class="ficha" href="index.html#tablero" id="irTablero" style="display:inline-block;text-decoration:none;margin-top:28px;font-size:18px;padding:.6rem 1.4rem;background:var(--tinta);color:var(--mostaza)">Abrir el tablero</a>
+  <div class="cinta-b"></div>
+</section>
+
+</div>
+</main>
+
+<nav class="nav" aria-label="Diapositivas">
+  <button id="ant" aria-label="Diapositiva anterior">‹</button>
+  <div class="puntos" id="puntos"></div>
+  <button id="sig" aria-label="Diapositiva siguiente">›</button>
+</nav>
+
+<div id="vista-tab" class="grano">
+<div class="tab">
+  <h2>Métricas principales</h2>
+  <div class="kpis">
+    <div class="kpi"><b>100.000</b><span>reservas únicas analizadas</span></div>
+    <div class="kpi"><b>19,0 %</b><span>tasa de cancelación</span></div>
+    <div class="kpi"><b>$15.511 M</b><span>ingreso perdido por cancelaciones</span></div>
+    <div class="kpi"><b>0,770</b><span>AUC del modelo en el año de prueba</span></div>
+    <div class="kpi"><b>353</b><span>noches de prueba (jul-2024 a jun-2025)</span></div>
+    <div class="kpi"><b>47 %</b><span>del ingreso perdido viene de Booking</span></div>
+  </div>
+
+  <h2>Seguimiento de OKR</h2>
+  <p class="sub">Meta del PDF del profesor frente a lo que logra el modelo con la propuesta. La línea vertical marca la meta.</p>
+  <div class="panel okr" id="okr"></div>
+
+  <h2>Decisiones tomadas</h2>
+  <div class="panel" style="padding:0;overflow:hidden">
+  <table class="t">
+    <thead><tr><th>Decisión</th><th>Elegido</th><th>Alternativa descartada</th><th>Por qué</th></tr></thead>
+    <tbody>
+      <tr><td>Regla de reservas adicionales</td><td><b>Percentil 5</b></td><td>Percentil 10 del PDF</td><td>P10 deja 7,6 % de noches con incidencia; P5 cumple ambas metas</td></tr>
+      <tr><td>Umbral para pedir depósito</td><td><b>Riesgo &gt; 30 %</b></td><td>10 % (más neto en el papel)</td><td>Con 10 % se pide depósito al 91 % de las reservas: es una política general</td></tr>
+      <tr><td>Política en Booking</td><td><b>Depósito en Flexibles</b></td><td>Pasar a Moderada</td><td>Baja más la tasa (21,4 % vs. 23,6 %) y tolera más pérdida de demanda</td></tr>
+      <tr><td>Tope del piloto (KR2)</td><td><b>12,5 %</b></td><td>25 % (equilibrio)</td><td>Conserva la mitad del beneficio y deja margen de error</td></tr>
+      <tr><td>Efecto del depósito</td><td><b>≈ 1,9 veces</b>, medido dentro de la política</td><td>2,7 veces de la comparación global</td><td>La tarifa No reembolsable ya trae depósito e inflaba el efecto</td></tr>
+      <tr><td>Modelo</td><td><b>Gradient boosting</b></td><td>Regresión logística (0,776)</td><td>Rinden igual; el boosting capta interacciones sin ajuste manual</td></tr>
+      <tr><td>Bases de datos</td><td><b>Completa + ventana</b></td><td>Una sola base</td><td>La completa reproduce el PDF; la ventana evita los bordes del historial</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Modelo</h2>
+  <div class="rej c3">
+    <div class="panel">
+      <h3>Ficha técnica</h3>
+      <table class="t" style="font-size:14px">
+        <tbody>
+          <tr><td>Algoritmo</td><td>HistGradientBoosting, 200 iteraciones</td></tr>
+          <tr><td>Variables</td><td>15, conocidas al reservar</td></tr>
+          <tr><td>Entrenamiento</td><td>47.018 reservas (may-2023 a jun-2024)</td></tr>
+          <tr><td>Prueba</td><td>39.150 reservas (jul-2024 a jun-2025)</td></tr>
+          <tr><td>AUC</td><td>0,770 (sin 2023: 0,768)</td></tr>
+          <tr><td>Brier</td><td>0,131 frente a 0,154 de una tasa fija</td></tr>
+          <tr><td>Calibración</td><td>Desviación máxima de 1,4 puntos por decil</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="panel"><h3>Calibración por deciles</h3><div class="graf"><canvas id="dCal"></canvas></div></div>
+    <div class="panel"><h3>Importancia de las variables</h3><div class="graf"><canvas id="dImp"></canvas></div><p class="nota">Caída del AUC al desordenar cada variable en el año de prueba.</p></div>
+  </div>
+
+  <h2>Resultados por pregunta</h2>
+  <p class="sub">Mueve los controles para ver cómo cambia cada decisión.</p>
+  <div class="rej c3">
+    <div class="panel">
+      <h3>P1 · Reservas adicionales</h3>
+      <div class="ctrl"><label for="dQ">Percentil</label><input type="range" id="dQ" min="1" max="40" value="5"><output id="oQ">5</output></div>
+      <div class="mini"><div><b id="mExtra"></b>adicionales por noche</div><div id="cCob"><b id="mCob"></b>cobertura (≥ 70 %)</div><div id="cInc"><b id="mInc"></b>incidencia (&lt; 6 %)</div></div>
+      <div class="graf"><canvas id="dP1"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>P2 · Pago por adelantado</h3>
+      <div class="ctrl"><label for="dU">Umbral</label><input type="range" id="dU" min="5" max="70" step="5" value="30"><output id="oU">30 %</output></div>
+      <div class="ctrl"><label for="dG">Desisten</label><input type="range" id="dG" min="0" max="30" value="5"><output id="oG">5 %</output></div>
+      <div class="mini"><div><b id="mPm"></b>de reservas sin pago</div><div class="ok"><b id="mProt"></b>protegido</div><div id="cNeto"><b id="mNeto"></b>neto</div></div>
+      <div class="graf" style="height:200px"><canvas id="dP2"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>P3 · Políticas por canal</h3>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px" id="dCanal">
+        <button class="ficha" data-v="Booking" aria-pressed="true">Booking</button><button class="ficha" data-v="Airbnb" aria-pressed="false">Airbnb</button>
+      </div>
+      <div class="ctrl"><label for="dG3">Se pierde</label><input type="range" id="dG3" min="0" max="40" value="10"><output id="oG3">10 %</output></div>
+      <div class="mini"><div><b id="mHoy"></b>tasa hoy</div><div class="ok"><b id="mDep"></b>con depósito</div><div id="cN3"><b id="mN3"></b>cambio de ingreso</div></div>
+      <div class="graf" style="height:200px"><canvas id="dP3"></canvas></div>
+    </div>
+  </div>
+
+  <h2>Dónde se concentra el riesgo</h2>
+  <div class="rej c2">
+    <div class="panel"><h3>Tasa de cancelación por canal</h3><div class="graf"><canvas id="dCan"></canvas></div></div>
+    <div class="panel"><h3>Tasa de cancelación por días de anticipación</h3><div class="graf"><canvas id="dAnt"></canvas></div></div>
+  </div>
+  <p class="pie">Fuente: hotel_reservas.csv, 100.000 reservas únicas de 2023 a 2025. Cifras del EDA y del notebook de desarrollo técnico. Los montos están en la escala de la base, que equivale a unas 8 veces las 38 habitaciones del hotel.</p>
+</div>
+</div>
+
+<script src="assets/vendor/chart.umd.js"></script>
+<script src="assets/data/datos.js"></script>
+<script src="assets/data/cifras.js"></script>
+<script src="assets/data/modelo.js"></script>
+<script src="assets/js/pres.js"></script>
+</body>
+</html>

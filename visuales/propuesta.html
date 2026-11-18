@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hotel Valle de Cocora · Propuesta ejecutiva</title>
+<link rel="stylesheet" href="../assets/css/prop.css"><link rel="stylesheet" href="../assets/css/nav.css"></head>
+<body>
+<header class="top"><span class="marca">Hotel Valle de Cocora</span><nav class="entregables" aria-label="Entregables"><a href="../index.html#s1" data-e="pres">Presentación</a><a href="../index.html#tablero" data-e="tab">Tablero</a><a href="visualizador.html" data-e="viz">Visualizador</a><a href="infografia.html" data-e="info">Infografía</a><a href="propuesta.html" data-e="prop" aria-current="page">Propuesta ejecutiva</a></nav></header>
+<article class="hoja">
+  <header class="membrete">
+    <img class="lino" src="../assets/img/lino.jpg" alt="">
+    <div class="eti">Propuesta ejecutiva</div>
+    <h1>Menos habitaciones vacías por cancelaciones</h1>
+    <dl class="datos"><dt>Para</dt><dd>Gerencia general, Hotel Valle de Cocora</dd><dt>De</dt><dd>Equipo de analítica, Programación Aplicada, Universidad de La Sabana</dd><dt>Fecha</dt><dd>17 de noviembre de 2026</dd></dl>
+  </header>
+  <div class="cuerpo">
+    <div class="pide">
+      <h2>Lo que pedimos aprobar</h2>
+      <ol>
+        <li><b>Reservas adicionales con criterio:</b> aceptar cada noche, por encima de la capacidad, el percentil 5 de las cancelaciones que el modelo espera para esa noche.</li>
+        <li><b>Depósito focalizado:</b> pedir pago por adelantado solo a las reservas sin pago cuyo riesgo estimado de cancelar supere el 30 %.</li>
+        <li><b>Piloto en Booking:</b> exigir depósito a las reservas Flexibles de Booking durante 3 meses, con grupo de control y un tope de pérdida de 12,5 % de esas reservas.</li>
+      </ol>
+    </div>
+
+    <h2>Por qué</h2>
+    <p>Una de cada cinco reservas se cancela (19,0 %) y la tasa ha sido la misma en 2023, 2024 y 2025. Cada cancelación deja una noche que ya no se vende. En la base analizada eso suma $15.511 millones de $81.694 millones de ingreso potencial, y casi la mitad viene de Booking.</p>
+    <p>Hoy estas decisiones se toman sin datos. Con 100.000 reservas construimos un modelo que estima el riesgo de cancelación de cada reserva al momento de recibirla. En un año que no vio al entrenar, esperaba 7.455 cancelaciones y hubo 7.420.</p>
+    <div class="kp">
+      <div><b>19,0 %</b><span>de las reservas se cancela</span></div>
+      <div><b>$15.511 M</b><span>de ingreso perdido en la base</span></div>
+      <div><b>47 %</b><span>de lo perdido viene de Booking</span></div>
+      <div><b>0,77</b><span>AUC del modelo en el año de prueba</span></div>
+    </div>
+
+    <h2>Qué se gana</h2>
+    <table>
+      <thead><tr><th>Decisión</th><th>Resultado esperado</th><th>Meta del OKR</th><th>Costo o riesgo</th></tr></thead>
+      <tbody>
+        <tr><td>Reservas adicionales (percentil 5)</td><td>Cubre el 71,1 % de las cancelaciones; 3,1 % de noches con incidencia</td><td>Cobertura ≥ 70 %; incidencias &lt; 6 %</td><td>3 de cada 100 noches con un huésped de más; se reubica o compensa</td></tr>
+        <tr><td>Depósito a riesgo &gt; 30 %</td><td>$1.266 M protegidos al año; $1.086 M netos si desiste el 5 %</td><td>Recuperar ≥ $1.149 M al año</td><td>Pedir pago al 37 % de las reservas sin depósito; algunos clientes desisten</td></tr>
+        <tr><td>Depósito en Flexibles de Booking</td><td>Tasa de Booking de 26,9 % a 21,4 %; $578 M recuperables</td><td>Booking a 21,6 %</td><td>Pérdida de demanda; deja de convenir si se pierde más de 25 %</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:14.5px">Montos en la escala de la base de datos, que equivale a unas 8 veces las 38 habitaciones del hotel. El ahorro real es proporcional.</p>
+
+    <h2>Cómo lo implementamos</h2>
+    <div class="crono">
+      <div><small>Semanas 1 y 2</small><b>Preparar</b>Conectar el modelo al sistema de reservas y fijar la regla del percentil 5 escalada a 38 habitaciones.</div>
+      <div><small>Semanas 3 a 14</small><b>Piloto</b>Depósito al azar en la mitad de las Flexibles de Booking; la otra mitad, control. Depósito focalizado activo.</div>
+      <div><small>Semana 15</small><b>Evaluar</b>Comparar grupos: cancelación, volumen e ingreso confirmado. Recalcular el ahorro con el efecto real.</div>
+      <div><small>Semana 16</small><b>Decidir</b>Extender a todo Booking y a Airbnb si se cumple la meta sin pasar el tope de pérdida.</div>
+    </div>
+
+    <h2>Riesgos y cómo los manejamos</h2>
+    <table>
+      <thead><tr><th>Riesgo</th><th>Mitigación</th></tr></thead>
+      <tbody>
+        <tr><td>El depósito funciona menos de lo observado (hoy es una asociación, no una causa probada)</td><td>El piloto con grupo de control mide el efecto real. Con la mitad del efecto, el ahorro sería ≈ $633 M y la decisión sigue siendo positiva.</td></tr>
+        <tr><td>Clientes que se van al pedirles depósito</td><td>Tope de 12,5 % de pérdida en las reservas afectadas; se detiene el piloto si se supera.</td></tr>
+        <tr><td>Un huésped llega y no hay cuarto</td><td>Percentil 5 en lugar del 10 que proponía el análisis inicial: 3,1 % de noches frente a 7,6 %. Protocolo de reubicación con hoteles vecinos.</td></tr>
+        <tr><td>El modelo pierde precisión con el tiempo</td><td>Recalibración trimestral y seguimiento mensual de cobertura e incidencias.</td></tr>
+        <tr><td>Cancelaciones de último momento</td><td>Los datos no dicen cuándo se cancela; el piloto registra esa fecha para ajustar la regla.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Cómo sabremos que funcionó</h2>
+    <table>
+      <thead><tr><th>Indicador</th><th>Hoy</th><th>Meta</th><th>Frecuencia</th></tr></thead>
+      <tbody>
+        <tr><td>Cobertura de cancelaciones con reservas adicionales</td><td class="n">0 %</td><td class="n">≥ 70 %</td><td>Mensual</td></tr>
+        <tr><td>Noches con incidencia por falta de habitación</td><td class="n">—</td><td class="n">&lt; 6 %</td><td>Mensual</td></tr>
+        <tr><td>Ingreso protegido por depósito focalizado</td><td class="n">$0</td><td class="n">≥ $1.149 M al año</td><td>Trimestral</td></tr>
+        <tr><td>Tasa de cancelación de Booking</td><td class="n">26,9 %</td><td class="n">≤ 21,6 %</td><td>Mensual</td></tr>
+        <tr><td>Caída de volumen en las reservas afectadas</td><td class="n">—</td><td class="n">≤ 12,5 %</td><td>Semanal durante el piloto</td></tr>
+      </tbody>
+    </table>
+
+    <div class="firma"><div>Aprobado por gerencia</div><div>Fecha</div></div>
+  </div>
+  <footer class="pieh">Evidencia completa en el documento principal, el tablero y el visualizador del proyecto. Fuente: hotel_reservas.csv, 100.000 reservas únicas de 2023 a 2025; modelo evaluado del 1 de julio de 2024 al 18 de junio de 2025.</footer>
+</article>
+</body></html>

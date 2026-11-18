@@ -1,0 +1,7 @@
+.entregables{display:flex;gap:2px;background:rgba(244,231,201,.1);border-radius:99px;padding:3px;overflow-x:auto;scrollbar-width:none;max-width:100%}
+.entregables::-webkit-scrollbar{display:none}
+.entregables a{color:#EEE7D7;padding:.38rem .9rem;border-radius:99px;font-family:"DM Sans",system-ui,sans-serif;font-weight:500;font-size:.88rem;text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
+.entregables a:hover{background:rgba(244,231,201,.14)}
+.entregables a[aria-current=page]{background:#D9A43A;color:#2A211B}
+.entregables a:focus-visible{outline:3px solid #D9A43A;outline-offset:2px}
+@media (max-width:760px){.entregables a{padding:.32rem .65rem;font-size:.8rem}}
